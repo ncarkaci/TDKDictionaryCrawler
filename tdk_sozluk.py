@@ -1,9 +1,10 @@
 #!/usr/bin/env python
+#
 # Türk Dil Kurumu Büyük Türkçe Sözlük Kelime Toplayıcı
 # Author: Necmettin Çarkacı
 # E-mail: necmettin [ . ] carkaci [ @ ] gmail [ . ] com
 #
-#Usage : 
+#Usage : tdk_sozluk.py
 
 import re, time,  requests
 
@@ -59,7 +60,7 @@ if __name__ == '__main__':
         'port' : 8080 # proxy port
     }
 
-    #proxy['host'] = "5.196.218.190" # Örnek proxy sunuxu adresi
+    proxy['host'] = "5.196.218.190" # Örnek proxy sunuxu adresi
 
     print ("Kelimeler alınıyor....")
     ilk_sozcuk_no = 1
