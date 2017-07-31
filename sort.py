@@ -11,6 +11,8 @@
 #
 # Usage : sort.py filename
 
+import sys # To get parameter from commandline
+
 '''
     Türkçe kelimelerin alfabeye göre doğru sıralanmasını sağlar. Aynı zamanda alfabede olmayan
     fakat kelimelerde olan karakterleri de alfabenin sonuna akleyerek sıralama ölçütünü gösterir.
@@ -18,9 +20,6 @@
     @param list kelime_listesi : Sıralanacak kelimelerin listesi
     @return list : Türk alfabesine göre sıralanmış kelime listesi
 '''
-
-import sys
-
 def sırala(kelime_listesi):
     alfabe = ' aâbcçdefgğhıîijklmnoöprsştuûüvyz'  # Başlangıç alfabesi
 
@@ -69,7 +68,7 @@ def dosya_sırala(filename):
 
     # Sıralanmış kelimeleri dosyaya yaz
     output_file_name = 'sorted_'+filename
-    print('Sıralnamış kelimeler '+output_file_name+' dosyasına yazılıyor ...')
+    print('Sıralanmış kelimeler '+output_file_name+' dosyasına yazılıyor ...')
     with open(output_file_name,'w') as output_file:
         output_file.writelines(["%s\n" % word for word in sorted_kelime_listesi])
 

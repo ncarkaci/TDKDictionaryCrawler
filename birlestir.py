@@ -10,8 +10,8 @@
 #
 # Usage : birlestir.py filename1 filename2 .... filenameN
 
-import sys
-import sort
+import sys # To get parameter from commandline
+import sort # To sort word list as a Turkish alphabet
 
 '''
     Birden fazla sözlük dosyasını tek bir dosya içerisinde birleştirir. Bu amaçla

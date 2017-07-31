@@ -9,7 +9,7 @@
 #
 # E-mail: necmettin [ . ] carkaci [ @ ] gmail [ . ] com
 #
-# Usage : istatistik.py filename
+# Usage : istatistik.py sozluk.txt
 
 
 import sys # To get parameter from commandline
