@@ -1,0 +1,12 @@
+env.sh
+node_modules/
+package-lock.json
+env/
+venv
+.vscode/
+.idea/
+.env
+.DS_Store
+__pycache__/
+.log
+.bak
