@@ -144,8 +144,30 @@ def dosyalari_birlestir(directory="./sözlükler", sonuc_dosyası="sonuc.txt"):
 
     sırala_ve_yaz(kelime_listesi, sonuc_dosyası="./birleştirilmiş_sözlük_kelime_listesi.txt" )
 
+
+def fark_ve_benzer_kelime_bulma(tdk_sozluk, zemberek_sozluk):
+
+    tdk_fark_zemberek = tdk_sozluk - zemberek_sozluk
+    print("TDK Sözlük Zemberekten Farklı Kelime Sayısı : ", len(tdk_fark_zemberek))
+    sırala_ve_yaz(tdk_fark_zemberek, "./tdk_fark_zemberek.txt")
+
+    zemberek_fark_tdk = zemberek_sozluk - tdk_sozluk
+    print("Zemberek Sözlük TDK Sözlük Farklı Kelime Sayısı : ", len(zemberek_fark_tdk))
+    sırala_ve_yaz(zemberek_fark_tdk, "./zemberek_fark_tdk.txt")
+
+    ortak_kelimeler   = tdk_sozluk.intersection(zemberek_sozluk)
+    print("Ortak Kelime Sayısı : ", len(ortak_kelimeler))
+    sırala_ve_yaz(ortak_kelimeler, "./ortak_kelimeler.txt")
+
+def tdk_zemberek_kelime_farklari():
+    tdk_sozluk      = set(open('./sözlükler/TDK_Sözlük_Kelime_Listesi.txt', encoding="utf-8").read().lower().split())
+    zemberek_sozluk = set(open('./sözlükler/Zemberek_Sözlük_Kelime_Listesi.txt', encoding="utf-8").read().lower().split())
+
+    fark_ve_benzer_kelime_bulma(tdk_sozluk, zemberek_sozluk)
+
 if __name__ == '__main__':
     #kelime_topla()
-    dosyalari_birlestir()
+    #dosyalari_birlestir()
+    tdk_zemberek_kelime_farklari()
 
 
