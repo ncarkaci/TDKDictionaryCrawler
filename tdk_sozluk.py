@@ -7,7 +7,7 @@
 # Usage : tdk_sozluk.py
 
 import requests
-import json
+import os
 
 
 def kelime_topla():
@@ -30,14 +30,7 @@ def kelime_topla():
             if kelime is not None:
                 kelime_listesi.add(kelime)
 
-        # Kelimeleri sözlük sırasına göre sırala
-        kelime_listesi = sırala(kelime_listesi)
-
-        print("Önişlemden sonra toplam kelime saysısı : ", len(kelime_listesi))
-
-        # Bulunan kelimeleri dosyaya yaz
-        with open('./sözlükler/tdk_kelime_listesi.txt', 'w', encoding="utf-8") as fileobject:
-            fileobject.write('\n'.join(kelime_listesi))
+        sırala_ve_yaz(kelime_listesi, './sözlükler/TDK_Sözlük_Kelime_Listesi.txt')
 
     except Exception as e:
         print('Bir şeyler ters gitti hata aldım. Hata :',e)
@@ -118,8 +111,41 @@ def sırala(kelime_listesi):
     return sorted_list
 
 
+def sırala_ve_yaz(kelime_listesi, sonuc_dosyası):
+
+    print("Toplam kelime saysısı : ", len(kelime_listesi))
+
+    # Sonuç dosyasını alfabeye göre sırala
+    print('Kelimeler alfabetik olarak sıralanıyor ...')
+    kelime_listesi = sırala(kelime_listesi)
+
+    # Bulunan kelimeleri dosyaya yaz
+    print('Elde edilen kelimeler '+sonuc_dosyası+' dosyasına yazılıyor ...')
+    with open(sonuc_dosyası, 'w', encoding="utf-8") as fileobject:
+        fileobject.write('\n'.join(kelime_listesi))
+
+def dosyalari_birlestir(directory="./sözlükler", sonuc_dosyası="sonuc.txt"):
+    """
+    Birden fazla sözlük dosyasını tek bir dosya içerisinde birleştirir. Bu amaçla
+    dosyalar içerisinde tekrar eden kelimeleri çıkarır. Aynı zamanda çıktı olarak
+    kelimelerin sıralı olarak bulunduğu bir dosya üretir.
+
+    @param string filename_list : Birleştirilecek dosyaların isimlerini içeren dosya listesi
+    @return : Birleştirilmiş dosya
+    @warn : Bütün işlemleri bellekte yaptığı için çok boyutlu ya da çok fazla dosyada yetersiz bellek hatası alınabilir.
+    """
+
+    kelime_listesi = set()
+
+    # Bütün dosyaların içeriği oku ve sonuç dosyasının sonuna ekle
+    for filename in os.listdir(directory):
+        print(filename+' dosyası okunuyor ...')
+        kelime_listesi.update(set(open(os.path.join(directory, filename), encoding="utf-8").read().lower().split()))
+
+    sırala_ve_yaz(kelime_listesi, sonuc_dosyası="./birleştirilmiş_sözlük_kelime_listesi.txt" )
 
 if __name__ == '__main__':
-    kelime_topla()
+    #kelime_topla()
+    dosyalari_birlestir()
 
 
