@@ -142,7 +142,7 @@ def dosyalari_birlestir(directory="./sözlükler", sonuc_dosyası="sonuc.txt"):
         print(filename+' dosyası okunuyor ...')
         kelime_listesi.update(set(open(os.path.join(directory, filename), encoding="utf-8").read().lower().split()))
 
-    sırala_ve_yaz(kelime_listesi, sonuc_dosyası="./birleştirilmiş_sözlük_kelime_listesi.txt" )
+    sırala_ve_yaz(kelime_listesi, sonuc_dosyası="./Birleştirilmiş_Sözlük_Kelime_Listesi.txt" )
 
 
 def fark_ve_benzer_kelime_bulma(tdk_sozluk, zemberek_sozluk):
