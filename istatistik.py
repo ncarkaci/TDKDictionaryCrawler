@@ -2,25 +2,24 @@ import sys # To get parameter from commandline
 import operator # To sort dictionary
 
 
-def kelimelerin_uzunlugunu_bul(filename):
+def kelimelerin_uzunlugunu_bul(dosya_adi):
     """
     Dosyada geçen kelimelerin uzunluklarını bulur ve sonuçları dosyaya yazar.
 
-    @param string filename : Dosya adı
+    @param string dosya_adi : Dosya adı
     @return dict kelime_uzunluklari : dosyada geçen kelimelerin uzunluklarını içeren sözlük
     """
-    kelime_uzunluklari  = {}
-    kelime_listesi      = set(open(filename, encoding="utf-8").read().lower().split())
-
-    for kelime in kelime_listesi:
-        kelime_uzunluklari[kelime] = len(kelime)
-
+    kelime_listesi     = set(open(dosya_adi, encoding="utf-8").read().lower().split())
+    kelime_uzunluklari = {
+        kelime: len(kelime)
+          for kelime in kelime_listesi
+    }
     sorted_kelime_uzunluklari = sorted(kelime_uzunluklari.items(), key=operator.itemgetter(1))
 
     # Dosyaya yaz
-    output_file_name = 'sorted_kelime_uzunluklari_'+filename
-    print('Uzunluklarına göre sıralanmış kelimeler '+output_file_name+' dosyasına yazılıyor ...')
-    with open(output_file_name,'w') as output_file:
+    cikti_dosyasi_adi = f'sorted_kelime_uzunluklari_{dosya_adi}'
+    print(f'Uzunluklarına göre sıralanmış kelimeler {cikti_dosyasi_adi} dosyasına yazılıyor ...')
+    with open(cikti_dosyasi_adi, 'w') as output_file:
         for kelime_uzunlugu in sorted_kelime_uzunluklari:
             kelime, uzunluk = kelime_uzunlugu
             output_file.write(kelime+"\t"+str(uzunluk)+"\n")
@@ -41,7 +40,7 @@ def uzunluklara_gore_kelime_sayisi_hesapla(sorted_kelime_uzunluklari, toplam_kel
     uzunluk_kelime_adedi = {}
 
     for kelime_uzunlugu in sorted_kelime_uzunluklari:
-        kelime, uzunluk = kelime_uzunlugu
+        _, uzunluk = kelime_uzunlugu
 
         if uzunluk not in uzunluk_kelime_adedi:
             uzunluk_kelime_adedi[uzunluk] = 1
@@ -51,24 +50,24 @@ def uzunluklara_gore_kelime_sayisi_hesapla(sorted_kelime_uzunluklari, toplam_kel
     sorted_uzunluk_kelime_adedi = sorted(uzunluk_kelime_adedi.items(), key=operator.itemgetter(1))
 
     # Dosyaya yaz
-    output_file_name = 'uzunluk_kelime_sayisi_'+filename
-    print('Uzunluk değerine göre hangi uzunluktan kaç adet kelime olduğu '+output_file_name+' dosyasına yazılıyor ...')
-    with open(output_file_name,'w') as output_file:
+    cikti_dosyasi_adi = f'uzunluk_kelime_sayisi_{dosya_adi}'
+    print(f'Uzunluk değerine göre hangi uzunluktan kaç adet kelime olduğu {cikti_dosyasi_adi} dosyasına yazılıyor ...')
+    with open(cikti_dosyasi_adi, 'w') as cikti_dosyasi:
         for uzunluk_kelime_adedi in sorted_uzunluk_kelime_adedi:
             uzunluk, kelime_adedi = uzunluk_kelime_adedi
             yuzdesi = (kelime_adedi*100)/toplam_kelime_sayisi
-            output_file.write(str(uzunluk)+"\t"+str(kelime_adedi)+'\t'+str(yuzdesi)+"\n")
+            cikti_dosyasi.write(str(uzunluk)+"\t"+str(kelime_adedi)+'\t'+str(yuzdesi)+"\n")
 
     return sorted_uzunluk_kelime_adedi
 
 
-def harf_sayisini_hesapla(filename, lowercase=True):
+def harf_sayisini_hesapla(dosya_adi, lowercase=True):
     """
     Alfabedeki harflerin kullanım sayısı ve yüzdelik dağılımını hesaplar.
     Örneğin : a 83706 adet ve tüm harflerin toplam %11'i a harfinden oluşuyor.
     Çıktıları dosyaya yazar.
 
-    @param string filename : Analiz yapılan dosya adı
+    @param string dosya_adi : Analiz yapılan dosya adı
     @param boolean lowercase : Kelime içindeki büyük harfler küçük harfe dönüştürülsün mü. Varsayılan değer Evet
     @return dict sorted_uzunluk_kelime_adedi : Harflerin adedini içeren sözlük
     @info : dosya çıktısında yüzdelik sonuçların hesapları da bulunmaktadır.
@@ -77,7 +76,7 @@ def harf_sayisini_hesapla(filename, lowercase=True):
     harf_adedi          = {}
     toplam_harf_sayisi  = 0
 
-    with open(filename, 'r') as input_file:
+    with open(dosya_adi, 'r') as input_file:
         dosya_icerigi = input_file.read()
         if lowercase:
             dosya_icerigi = dosya_icerigi.lower()
@@ -101,9 +100,9 @@ def harf_sayisini_hesapla(filename, lowercase=True):
     print('Toplam harf sayısı : '+str(toplam_harf_sayisi))
 
     # Dosyaya yaz
-    output_file_name = 'sorted_harf_adedi_'+filename
-    print('Harflerin dağılımı '+output_file_name+' dosyasına yazılıyor ...')
-    with open(output_file_name,'w') as output_file:
+    cikti_dosyasi_adi = f'sorted_harf_adedi_{dosya_adi}'
+    print(f'Harflerin dağılımı {cikti_dosyasi_adi} dosyasına yazılıyor ...')
+    with open(cikti_dosyasi_adi,'w') as output_file:
         for harf_sayisi in sorted_harf_adedi:
             harf, sayisi = harf_sayisi
             yuzdesi = (sayisi*100)/toplam_harf_sayisi
@@ -114,8 +113,8 @@ def harf_sayisini_hesapla(filename, lowercase=True):
 
 if __name__ == '__main__':
 
-    filename = sys.argv[1]
-    sorted_kelime_uzunluklari   = kelimelerin_uzunlugunu_bul(filename)
+    dosya_adi = sys.argv[1]
+    sorted_kelime_uzunluklari   = kelimelerin_uzunlugunu_bul(dosya_adi)
     toplam_kelime_sayisi        = len(sorted_kelime_uzunluklari)
     #print('Kelimelerin uzunlukları : \n')
     #print(sorted_kelime_uzunluklari)
@@ -124,4 +123,4 @@ if __name__ == '__main__':
     #print('Uzunluk değerine göre hangi uzunluktan kaç adet kelime olduğu : uzunluk - kelime sayısı : \n')
     #print(uzunluklara_gore_kelime_sayisi)
 
-    harf_sayisini_hesapla(filename)
+    harf_sayisini_hesapla(dosya_adi)

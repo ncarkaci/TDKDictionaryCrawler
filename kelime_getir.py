@@ -15,20 +15,20 @@ from random import randint # Rastgele kelime üretebilmek için
 '''
     Verilen dosyanın içerisinden rastgele istenilen sayı kadar kelime seçer ve bu kelimeleri geri döndürür.
     
-    @param string filename : Kelimelerin yer aldığı dosyanın ismi
+    @param string dosya_adi : Kelimelerin yer aldığı dosyanın ismi
     @param int kelime_sayisi : Geri döndürülecek kelime adedi. Varsayılan değeri 6'dır.
     
     @return list : Rastgele seçilmiş kelimelerden oluşmuş kelime listesi
 '''
-def rastgele_kelime_getir(filename, kelime_sayisi = 6):
+def rastgele_kelime_getir(dosya_adi, kelime_sayisi:int = 6):
 
     kelimeler = []
-    with open(filename, 'r') as input_file:
+    with open(dosya_adi, 'r') as input_file:
         dosya_icerigi = input_file.read()
 
         kelime_listesi = dosya_icerigi.split()
 
-        for i in range(0,int(kelime_sayisi)):
+        for _ in range(kelime_sayisi):
             index = randint(0, len(kelime_listesi))
             kelimeler.append(kelime_listesi[index])
 
@@ -36,12 +36,12 @@ def rastgele_kelime_getir(filename, kelime_sayisi = 6):
 
 if __name__ == '__main__':
 
-    filename = sys.argv[1]
+    dosya_adi = sys.argv[1]
 
     if len(sys.argv) > 2:
-        kelime_sayisi = sys.argv[2]
-        kelimeler = rastgele_kelime_getir(filename,kelime_sayisi)
+        kelime_sayisi = int(sys.argv[2])
+        kelimeler = rastgele_kelime_getir(dosya_adi,kelime_sayisi)
     else :
-        kelimeler = rastgele_kelime_getir(filename)
+        kelimeler = rastgele_kelime_getir(dosya_adi)
 
     print(kelimeler)
